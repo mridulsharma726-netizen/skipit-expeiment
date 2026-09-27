@@ -47,7 +47,10 @@
 <!-- ============================================================
      LISTING DETAIL MODAL
      ============================================================ -->
-<div class="listing-overlay" id="listingOverlay" role="dialog" aria-label="Listing detail">
+<!-- ============================================================
+     GLASS PRODUCT DETAIL MODAL
+     ============================================================ -->
+<div class="listing-overlay" id="listingOverlay" role="dialog" aria-modal="true" aria-label="Listing detail">
   <div class="listing-modal">
     <button class="listing-modal-close" id="lmClose" aria-label="Close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -56,48 +59,510 @@
       <img id="lmImage" src="" alt="Product">
     </div>
     <div class="listing-modal-body">
-      <span class="badge badge--green" style="margin-bottom:12px">
-        <svg viewBox="0 0 8 8" fill="currentColor" style="width:8px;height:8px"><circle cx="4" cy="4" r="3"/></svg>
-        Available Now
-      </span>
-      <h2 id="lmTitle" style="font-family:var(--font-sans);font-size:1.375rem;font-weight:800;letter-spacing:-.025em;line-height:1.2;margin-bottom:4px"></h2>
-      <div style="display:flex;align-items:center;gap:6px;font-size:.875rem;color:var(--text-muted);margin-bottom:4px">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <span class="badge badge--green">
+          <svg viewBox="0 0 8 8" fill="currentColor" style="width:8px;height:8px"><circle cx="4" cy="4" r="3"/></svg>
+          Available Now
+        </span>
+        <span class="badge badge--blue" id="lmCategoryBadge">Photography</span>
+      </div>
+
+      <h2 id="lmTitle" style="font-family:var(--font-sans);font-size:1.45rem;font-weight:800;letter-spacing:-.025em;line-height:1.2;margin-bottom:6px;color:#fff"></h2>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.875rem;color:var(--text-secondary);margin-bottom:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:#38bdf8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <span id="lmLocation"></span>
       </div>
+
       <div class="lm-price-row">
         <span class="lm-price-main" id="lmPrice"></span>
         <span class="lm-price-per">/ day</span>
       </div>
+
       <p id="lmDesc" style="font-size:.9375rem;color:var(--text-secondary);line-height:1.7;margin-bottom:16px"></p>
-      <div class="lm-avail-row">
-        <div class="lm-avail-dot"></div>
-        Available — ready to rent
+
+      <!-- Interactive Duration Selector -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:.8125rem;font-weight:600;color:#94a3b8;margin-bottom:8px">Select Rental Duration:</div>
+        <div class="lm-duration-selector" id="lmDurationSelector">
+          <button type="button" class="duration-chip active" data-days="1">1 Day</button>
+          <button type="button" class="duration-chip" data-days="3">3 Days</button>
+          <button type="button" class="duration-chip" data-days="7">7 Days</button>
+          <button type="button" class="duration-chip" data-days="14">14 Days</button>
+        </div>
       </div>
-      <div class="lm-divider"></div>
+
+      <!-- Protection Add-on Selector -->
+      <div style="background:var(--glass-subtle);border:1px solid var(--glass-border);border-radius:var(--radius-lg);padding:14px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:.8125rem;font-weight:700;color:#ffffff">Damage Protection Add-on</div>
+          <span style="font-size:.75rem;color:#38bdf8;font-weight:600">Recommended</span>
+        </div>
+        <div style="display:flex;gap:8px" id="lmProtectionPlanSelector">
+          <label class="duration-chip active" style="cursor:pointer;flex:1">
+            <input type="radio" name="protectionChoice" value="basic" checked style="display:none">
+            <span>Basic (+₹49/d)</span>
+          </label>
+          <label class="duration-chip" style="cursor:pointer;flex:1">
+            <input type="radio" name="protectionChoice" value="premium" style="display:none">
+            <span>Premium (+₹99/d)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Owner Info Card -->
       <div class="lm-owner-row">
         <div class="lm-owner-avatar" id="lmOwnerInitial">R</div>
         <div>
-          <div class="lm-owner-name" id="lmOwnerName"></div>
-          <div class="lm-owner-sub">Verified owner · SkipIt member</div>
+          <div class="lm-owner-name" id="lmOwnerName">Rahul M.</div>
+          <div class="lm-owner-sub">Verified Owner · KYC Completed</div>
         </div>
-        <div style="margin-left:auto;display:flex;align-items:center;gap:4px;font-size:.8125rem;font-weight:600;color:var(--green-600)">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:4px;font-size:.8125rem;font-weight:600;color:var(--green-400)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           Verified
         </div>
       </div>
+
+      <!-- Refundable Deposit Row -->
       <div class="lm-deposit-row">
-        <span class="lm-deposit-label">Refundable Deposit</span>
-        <span class="lm-deposit-val" id="lmDeposit"></span>
+        <div>
+          <span class="lm-deposit-label">Refundable Security Deposit</span>
+          <div style="font-size:.7rem;color:var(--text-muted)">Held in escrow · Returned after check-in</div>
+        </div>
+        <span class="lm-deposit-val" id="lmDeposit">₹5,000</span>
       </div>
-      <div style="background:var(--bg-subtle);border-radius:var(--radius-lg);padding:12px 16px;font-size:.8125rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.5">
-        <strong style="color:var(--text-primary)">Logistics:</strong> Pickup and return coordinated directly with the owner per the rental agreement. SkipIt does not provide logistics.
+
+      <div style="background:var(--glass-subtle);border:1px solid var(--glass-border);border-radius:var(--radius-lg);padding:12px 16px;font-size:.8125rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.5">
+        <strong style="color:#ffffff">Logistics:</strong> Coordinate pickup &amp; drop-off directly with the owner. SkipIt provides security escrow &amp; rental protection.
       </div>
-      <button class="btn btn--primary btn--lg" style="width:100%;justify-content:center" onclick="alert('Sign up to request a rental!')">
-        Request to Rent
+
+      <!-- Primary Action: Proceed to Payment -->
+      <button class="btn btn--primary btn--lg" id="lmProceedBtn" style="width:100%;justify-content:center">
+        <span>Proceed to Rent</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
       </button>
-      <p style="font-size:.75rem;color:var(--text-muted);text-align:center;margin-top:10px">By requesting, you agree to SkipIt's rental terms.</p>
+      <p style="font-size:.75rem;color:var(--text-muted);text-align:center;margin-top:10px">Secure Escrow Protection · Cancel anytime before pickup</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     AUTH MODAL (SIGN IN & SIGN UP)
+     ============================================================ -->
+<div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-label="Authentication">
+  <div class="auth-modal">
+    <button class="auth-modal-close" id="authClose" aria-label="Close modal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    
+    <!-- Brand Header -->
+    <div class="auth-brand">
+      <div class="auth-brand-icon">
+        <svg viewBox="0 0 38 38" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6C4 4.895 4.895 4 6 4H24C25.105 4 26 4.895 26 6V15H16C14.895 15 14 15.895 14 17V26H6C4.895 26 4 25.105 4 24V6Z"/>
+          <rect x="17" y="17" width="17" height="9" rx="2"/>
+          <circle cx="10" cy="32" r="4"/>
+          <circle cx="24" cy="32" r="4"/>
+        </svg>
+      </div>
+      <span class="auth-brand-name">skipit</span>
+    </div>
+
+    <!-- Segmented Tabs -->
+    <div class="auth-tabs" role="tablist">
+      <button type="button" class="auth-tab active" id="tabSignIn" role="tab" aria-selected="true">Sign in</button>
+      <button type="button" class="auth-tab" id="tabSignUp" role="tab" aria-selected="false">Sign up</button>
+    </div>
+
+    <!-- Continue with Google Button -->
+    <button type="button" class="auth-google-btn" id="googleAuthBtn">
+      <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.665-5.17 3.665-9.12z"/>
+        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.26 21.36 7.33 24 12 24z"/>
+        <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.13z"/>
+        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.13c.95-2.83 3.6-4.96 6.72-4.96z"/>
+      </svg>
+      <span>Continue with Google</span>
+    </button>
+
+    <!-- Divider -->
+    <div class="auth-divider">
+      <span>or continue with email</span>
+    </div>
+
+    <!-- Sign In Panel -->
+    <form id="signInForm" class="auth-form">
+      <div class="auth-field">
+        <label for="siEmail">Email address</label>
+        <div class="auth-input-wrap">
+          <svg class="auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <input type="email" id="siEmail" placeholder="you@example.com" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="siPassword">Password</label>
+        <div class="auth-input-wrap">
+          <svg class="auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <input type="password" id="siPassword" placeholder="Password (min 8 chars)" required minlength="8" autocomplete="current-password">
+          <button type="button" class="auth-eye-btn" data-target="siPassword" aria-label="Toggle password visibility">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="auth-forgot-row">
+        <a href="#" class="auth-forgot-link" id="authForgotBtn">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="auth-submit-btn">
+        <span>Sign in</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:18px;height:18px;min-width:18px;min-height:18px;flex-shrink:0">
+          <path d="m5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <div class="auth-footer-text">
+        Don't have an account? <a href="#" class="auth-switch-link" id="switchToSignUp">Sign up free</a>
+      </div>
+    </form>
+
+    <!-- Sign Up Panel -->
+    <form id="signUpForm" class="auth-form" style="display:none">
+      <div class="auth-field">
+        <label for="suName">Full name</label>
+        <div class="auth-input-wrap">
+          <svg class="auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          <input type="text" id="suName" placeholder="e.g. Rahul Sharma" required autocomplete="name">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="suEmail">Email address</label>
+        <div class="auth-input-wrap">
+          <svg class="auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <input type="email" id="suEmail" placeholder="you@example.com" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="suPhone">Phone number</label>
+        <div class="auth-input-wrap">
+          <svg class="auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.82 12a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.78 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <input type="tel" id="suPhone" placeholder="+91 98765 43210" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="suPassword">Password</label>
+        <div class="auth-input-wrap">
+          <svg class="auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <input type="password" id="suPassword" placeholder="Password (min 8 chars)" required minlength="8" autocomplete="new-password">
+          <button type="button" class="auth-eye-btn" data-target="suPassword" aria-label="Toggle password visibility">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="auth-submit-btn">
+        <span>Create account</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:18px;height:18px;min-width:18px;min-height:18px;flex-shrink:0">
+          <path d="m5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <div class="auth-footer-text">
+        Already have an account? <a href="#" class="auth-switch-link" id="switchToSignIn">Sign in</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="auth-toast" id="authToast" role="alert" aria-live="polite">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;color:var(--brand)">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+  <span id="authToastMsg">Signed in successfully</span>
+</div>
+
+<!-- ============================================================
+     GLASS KYC VERIFICATION MODAL
+     ============================================================ -->
+<div class="kyc-overlay" id="kycOverlay" role="dialog" aria-modal="true" aria-label="Identity Verification">
+  <div class="kyc-modal">
+    <button class="auth-modal-close" id="kycClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    
+    <div style="text-align:center;margin-bottom:20px">
+      <div class="auth-brand-icon" style="margin:0 auto 12px;background:linear-gradient(135deg,#0044FF,#160078)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:#fff"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <h3 style="font-family:var(--font-sans);font-size:1.375rem;font-weight:800;color:#fff">Identity &amp; KYC Verification</h3>
+      <p style="font-size:.875rem;color:var(--text-secondary)">Build community trust. Required once to rent or list items on SkipIt.</p>
+    </div>
+
+    <!-- Stepper -->
+    <div class="kyc-stepper">
+      <div class="kyc-step done">
+        <div class="kyc-step-dot">✓</div>
+        <span>Account</span>
+      </div>
+      <div style="flex:1;height:2px;background:rgba(34,197,94,0.4);margin:0 8px"></div>
+      <div class="kyc-step done">
+        <div class="kyc-step-dot">✓</div>
+        <span>Phone</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--brand);margin:0 8px"></div>
+      <div class="kyc-step active">
+        <div class="kyc-step-dot">3</div>
+        <span>Govt ID</span>
+      </div>
+      <div style="flex:1;height:2px;background:rgba(255,255,255,0.1);margin:0 8px"></div>
+      <div class="kyc-step">
+        <div class="kyc-step-dot">○</div>
+        <span>Approved</span>
+      </div>
+    </div>
+
+    <form id="kycForm" class="auth-form">
+      <div class="auth-field">
+        <label>Select Government ID Type</label>
+        <div class="auth-input-wrap">
+          <select id="kycDocType" style="width:100%;background:transparent;border:none;outline:none;color:#fff;font-family:var(--font-body)">
+            <option value="aadhaar" style="background:#0f172a">Aadhaar Card (Fastest Verification)</option>
+            <option value="passport" style="background:#0f172a">Indian Passport</option>
+            <option value="dl" style="background:#0f172a">Driving License</option>
+            <option value="voter" style="background:#0f172a">Voter ID</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="kycIdNumber">ID / Document Number</label>
+        <div class="auth-input-wrap">
+          <input type="text" id="kycIdNumber" placeholder="XXXX-XXXX-XXXX" required>
+        </div>
+      </div>
+
+      <!-- Upload Dropzone -->
+      <div class="kyc-upload-box" id="kycDropzone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:32px;height:32px;color:#60a5fa;margin:0 auto 10px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div style="font-size:.875rem;font-weight:600;color:#fff">Click or drag &amp; drop document scan</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:4px">PNG, JPG, or PDF (Max 10MB). Encrypted with 256-bit AES.</div>
+      </div>
+
+      <button type="submit" class="auth-submit-btn">
+        <span>Submit for Verification</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ============================================================
+     GLASS USER & OWNER DASHBOARD MODAL
+     ============================================================ -->
+<div class="dashboard-overlay" id="dashboardOverlay" role="dialog" aria-modal="true" aria-label="SkipIt Dashboard">
+  <div class="dashboard-modal">
+    <button class="auth-modal-close" id="dashClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+
+    <div class="dashboard-header">
+      <div>
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#60a5fa;margin-bottom:4px">Personal Hub</div>
+        <h2 style="font-family:var(--font-sans);font-size:1.75rem;font-weight:800;color:#fff" id="dashGreeting">Welcome back, Rahul</h2>
+      </div>
+      <div class="dashboard-nav-tabs">
+        <button type="button" class="dash-tab-btn active" id="tabRenterView">Renter Hub</button>
+        <button type="button" class="dash-tab-btn" id="tabOwnerView">Owner Hub</button>
+      </div>
+    </div>
+
+    <!-- Renter Hub Panel -->
+    <div id="renterDashboardPanel">
+      <div class="dash-stats-row">
+        <div class="dash-stat-card">
+          <div class="dash-stat-title">Active Rentals</div>
+          <div class="dash-stat-value">1</div>
+          <div style="font-size:.75rem;color:#4ade80;margin-top:4px">Return in 2 days</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-title">Security Escrow Held</div>
+          <div class="dash-stat-value" id="dashEscrowAmount">₹5,000</div>
+          <div style="font-size:.75rem;color:#60a5fa;margin-top:4px">100% Refundable</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-title">KYC Trust Level</div>
+          <div class="dash-stat-value" style="color:#4ade80">Verified</div>
+          <div style="font-size:.75rem;color:var(--text-muted);margin-top:4px">All India access</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;display:flex;align-items:center;justify-content:space-between">
+        <h3 style="font-family:var(--font-sans);font-size:1.125rem;font-weight:700;color:#fff">Current &amp; Upcoming Rentals</h3>
+        <span class="badge badge--green">Live</span>
+      </div>
+
+      <div id="dashRentalsList">
+        <div class="dash-list-item">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,0.06);overflow:hidden">
+              <img src="images/product_camera.jpg" alt="Item" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div>
+              <div style="font-weight:700;color:#fff">Sony Alpha Mirrorless Camera</div>
+              <div style="font-size:.8125rem;color:var(--text-secondary)">Owner: Rahul M. · Bengaluru · 3-Day Rental</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:800;color:#fff">₹2,397 paid</div>
+            <span class="badge badge--green" style="margin-top:4px">In Possession</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Owner Hub Panel -->
+    <div id="ownerDashboardPanel" style="display:none">
+      <div class="dash-stats-row">
+        <div class="dash-stat-card">
+          <div class="dash-stat-title">Total Lifetime Earnings</div>
+          <div class="dash-stat-value" style="color:#4ade80">₹14,250</div>
+          <div style="font-size:.75rem;color:var(--text-muted);margin-top:4px">After 12% commission</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-title">Active Listed Items</div>
+          <div class="dash-stat-value">3</div>
+          <div style="font-size:.75rem;color:#60a5fa;margin-top:4px">All items verified</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-title">Pending Requests</div>
+          <div class="dash-stat-value" id="dashPendingCount" style="color:#fbbf24">1</div>
+          <div style="font-size:.75rem;color:var(--text-muted);margin-top:4px">Action needed</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;display:flex;align-items:center;justify-content:space-between">
+        <h3 style="font-family:var(--font-sans);font-size:1.125rem;font-weight:700;color:#fff">Rental Requests from Renters</h3>
+        <span class="badge badge--blue">Incoming</span>
+      </div>
+
+      <div id="dashRequestsList">
+        <div class="dash-list-item" id="sampleOwnerRequest">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,0.06);overflow:hidden">
+              <img src="images/product_ps5.jpg" alt="Item" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div>
+              <div style="font-weight:700;color:#fff">PlayStation 5 Console</div>
+              <div style="font-size:.8125rem;color:var(--text-secondary)">Renter: Priya K. · Mumbai · 3 Days (₹1,797)</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn--primary btn--sm" onclick="approveRequest('sampleOwnerRequest')">Approve</button>
+            <button class="btn btn--outline btn--sm" onclick="declineRequest('sampleOwnerRequest')">Decline</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GLASS PAYMENT & CHECKOUT MODAL
+     ============================================================ -->
+<div class="payment-overlay" id="paymentOverlay" role="dialog" aria-modal="true" aria-label="Secure Checkout">
+  <div class="payment-modal">
+    <button class="auth-modal-close" id="payClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <div class="auth-brand-icon" style="width:38px;height:38px;border-radius:10px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px;color:#fff"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </div>
+      <div>
+        <h3 style="font-family:var(--font-sans);font-size:1.25rem;font-weight:800;color:#fff">SkipIt Secure Escrow Checkout</h3>
+        <p style="font-size:.8125rem;color:var(--text-secondary)">Verified peer-to-peer rental agreement</p>
+      </div>
+    </div>
+
+    <!-- Product Summary Card -->
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--glass-subtle);border:1px solid var(--glass-border);border-radius:var(--radius-lg)">
+      <img id="payItemImage" src="images/product_camera.jpg" alt="Item" style="width:50px;height:50px;border-radius:10px;object-fit:cover">
+      <div>
+        <div style="font-weight:700;color:#fff;font-size:.9375rem" id="payItemTitle">Sony Alpha Mirrorless Camera</div>
+        <div style="font-size:.8125rem;color:var(--text-muted)" id="payItemDuration">Rental duration: 3 Days</div>
+      </div>
+    </div>
+
+    <!-- Itemized Breakdown -->
+    <div class="payment-receipt">
+      <div class="receipt-row">
+        <span>Base Rental (<span id="payDaysCount">3</span> days)</span>
+        <span id="payBaseRental">₹2,397</span>
+      </div>
+      <div class="receipt-row">
+        <span>Damage Protection Plan</span>
+        <span id="payProtectionAmount">₹147</span>
+      </div>
+      <div class="receipt-row" style="color:#60a5fa">
+        <span>Refundable Security Deposit</span>
+        <span id="payDepositAmount">₹5,000</span>
+      </div>
+      <div class="receipt-row" style="font-size:.75rem;color:var(--text-muted)">
+        <span>SkipIt platform fee</span>
+        <span>Included (12%)</span>
+      </div>
+      <div class="receipt-row receipt-row--total">
+        <span>Total Due Now</span>
+        <span id="payTotalAmount" style="color:#fff">₹7,544</span>
+      </div>
+    </div>
+
+    <!-- Payment Method Selector -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:.8125rem;font-weight:600;color:#cbd5e1;margin-bottom:8px">Select Payment Method:</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <label class="duration-chip active" style="cursor:pointer;text-align:center">
+          <input type="radio" name="payMethod" value="upi" checked style="display:none">
+          <span>UPI / QR</span>
+        </label>
+        <label class="duration-chip" style="cursor:pointer;text-align:center">
+          <input type="radio" name="payMethod" value="cards" style="display:none">
+          <span>Cards</span>
+        </label>
+        <label class="duration-chip" style="cursor:pointer;text-align:center">
+          <input type="radio" name="payMethod" value="netbanking" style="display:none">
+          <span>NetBanking</span>
+        </label>
+      </div>
+    </div>
+
+    <button class="btn btn--primary btn--lg" id="payConfirmBtn" style="width:100%;justify-content:center">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>Pay &amp; Confirm Booking</span>
+    </button>
+    <div style="font-size:.75rem;color:var(--text-muted);text-align:center;margin-top:10px">
+      Deposits are held in RBI-compliant escrow and returned immediately upon return.
     </div>
   </div>
 </div>
@@ -131,7 +596,8 @@
       <a href="#how-it-works" class="nav-link">How It Works</a>
       <a href="#for-owners" class="nav-link">List an Item</a>
       <a href="#trust" class="nav-link">Safety</a>
-      <a href="#cta-section" class="nav-link">About</a>
+      <a href="#" class="nav-link" id="navDashboardLink" onclick="openDashboardModal(); return false;">Dashboard</a>
+      <a href="#" class="nav-link" id="navKycLink" onclick="openKycModal(); return false;">KYC</a>
     </div>
     <div class="nav-actions">
       <button class="nav-search-btn js-open-search" aria-label="Search" id="navSearchBtn">
@@ -139,7 +605,14 @@
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
       </button>
-      <a href="#" class="nav-login">Log in</a>
+      <a href="#" class="nav-login js-open-auth" id="navLoginBtn">Log in</a>
+      <div class="nav-user-profile" id="navUserProfile" style="display:none">
+        <div class="nav-user-avatar" id="navUserAvatar" onclick="openDashboardModal()" style="cursor:pointer">R</div>
+        <span class="nav-user-name" id="navUserName" onclick="openDashboardModal()" style="cursor:pointer">Rahul</span>
+        <button class="nav-logout-btn" id="navLogoutBtn" aria-label="Log out" title="Log out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
       <a href="#for-owners" class="btn btn--primary btn--sm">List an Item</a>
     </div>
     <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
@@ -156,10 +629,11 @@
     <a href="#for-owners" class="mobile-nav-link">List an Item</a>
     <a href="#trust" class="mobile-nav-link">Safety &amp; Trust</a>
     <a href="#protection" class="mobile-nav-link">Protection</a>
-    <a href="#cta-section" class="mobile-nav-link">About SkipIt</a>
+    <a href="#" class="mobile-nav-link" onclick="openDashboardModal(); return false;">Dashboard</a>
+    <a href="#" class="mobile-nav-link" onclick="openKycModal(); return false;">KYC Verification</a>
   </div>
   <div class="mobile-nav-actions">
-    <a href="#" class="btn btn--outline" style="justify-content:center">Log in</a>
+    <a href="#" class="btn btn--outline js-open-auth" id="mobileNavLoginBtn" style="justify-content:center">Log in</a>
     <a href="#for-owners" class="btn btn--primary" style="justify-content:center">List an Item</a>
   </div>
 </div>
@@ -187,12 +661,43 @@
       <p class="hero-description reveal reveal-delay-3">
         SkipIt is a peer-to-peer rental marketplace that helps people access products without the cost and commitment of buying them.
       </p>
-      <div class="hero-ctas reveal reveal-delay-4">
-        <a href="#marketplace" class="btn btn--primary btn--lg" id="hero-explore-btn">
-          Explore Rentals
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
+
+      <!-- Large Glass Search Component -->
+      <div class="hero-glass-search reveal reveal-delay-4">
+        <form id="heroSearchForm" class="hero-search-form">
+          <div class="search-field-wrap">
+            <svg class="search-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" id="heroSearchInput" placeholder="What do you want to rent?" autocomplete="off">
+          </div>
+          <div class="search-field-wrap">
+            <svg class="search-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            <select id="heroLocationSelect" aria-label="Location">
+              <option value="all">All Locations</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Delhi">Delhi NCR</option>
+              <option value="Pune">Pune</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Jaipur">Jaipur</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn--primary hero-search-submit" id="heroSearchSubmit">
+            <span>Find Rentals</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <div class="hero-ctas reveal reveal-delay-4" style="margin-bottom:32px">
+        <a href="#marketplace" class="btn btn--glass btn--lg" id="hero-explore-btn">
+          Explore All Products
         </a>
-        <a href="#for-owners" class="btn btn--outline btn--lg" id="hero-list-btn">List Your Item</a>
+        <a href="#for-owners" class="btn btn--outline btn--lg" id="hero-list-btn">List an Item</a>
       </div>
       <div class="hero-trust reveal reveal-delay-5">
         <div class="hero-trust-item">
@@ -639,7 +1144,7 @@
     <!-- Deposit Notice -->
     <div class="deposit-notice reveal">
       <p>
-        <strong>About rental deposits:</strong> Deposits may be required depending on the item, category, owner requirements, and risk level. Deposits are a <strong>security mechanism</strong> — they are held separately and returned after a successful rental. They are not platform revenue.
+        <strong>About rental deposits:</strong> Deposits may be required depending on the item, category, owner requirements, and risk level. Deposits are a <strong>security mechanism</strong> — they are held separately and returned after a successful rental.
       </p>
     </div>
   </div>
@@ -693,7 +1198,7 @@
             </div>
           </div>
         </div>
-        <a href="#" class="btn btn--primary btn--lg" onclick="alert('Sign up to start listing!')">
+        <a href="#" class="btn btn--primary btn--lg" onclick="openAuthModal('signup'); return false;">
           Start Listing
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -791,59 +1296,6 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     10. BUSINESS MODEL
-     ============================================================ -->
-<section id="business-model" class="section" aria-label="Business model">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="eyebrow">How SkipIt earns</span>
-      <h2>A marketplace designed to scale.</h2>
-      <p>SkipIt generates revenue primarily through a commission on successful rental transactions. The model is straightforward and transparent.</p>
-    </div>
-
-    <div class="biz-grid">
-      <!-- Revenue -->
-      <div class="biz-card biz-card--revenue reveal">
-        <div class="biz-card-label">Platform Revenue</div>
-        <div class="commission-highlight">
-          <span class="commission-percent">12</span>
-          <span class="commission-suffix">%</span>
-        </div>
-        <h3>Commission per transaction</h3>
-        <p>SkipIt earns a 12% commission on every successful rental transaction completed through the platform. This is the primary revenue mechanism.</p>
-        <div class="revenue-items">
-          <div class="rev-item"><div class="rev-item-dot"></div>Charged on rental value only</div>
-          <div class="rev-item"><div class="rev-item-dot"></div>Optional protection plan fees</div>
-          <div class="rev-item"><div class="rev-item-dot"></div>No hidden platform charges</div>
-        </div>
-      </div>
-      <!-- Deposit -->
-      <div class="biz-card biz-card--deposit reveal reveal-delay-2">
-        <div class="biz-card-label">Security Mechanism</div>
-        <h3>Rental deposits — not platform revenue</h3>
-        <p style="margin-bottom:16px">Rental deposits may be required for certain items, categories, or risk levels. It is important to understand the distinction:</p>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="padding:16px;background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border)">
-            <div style="font-family:var(--font-sans);font-size:.875rem;font-weight:700;color:var(--text-primary);margin-bottom:4px">Deposits are held security</div>
-            <div style="font-size:.875rem;color:var(--text-secondary);line-height:1.5">They are returned after a successful rental is completed. They are not earned by SkipIt.</div>
-          </div>
-          <div style="padding:16px;background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border)">
-            <div style="font-family:var(--font-sans);font-size:.875rem;font-weight:700;color:var(--text-primary);margin-bottom:4px">Commission is platform revenue</div>
-            <div style="font-size:.875rem;color:var(--text-secondary);line-height:1.5">Only the 12% commission on the rental value is retained by SkipIt as earnings.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top:32px;padding:24px 32px;background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--radius-xl);text-align:center" class="reveal">
-      <p style="font-size:.9375rem;color:var(--text-secondary);line-height:1.6">
-        <strong>Note on logistics:</strong> SkipIt does not provide any logistics or delivery service. Pickup and return arrangements are made directly between the renter and owner according to the rental agreement.
-      </p>
     </div>
   </div>
 </section>

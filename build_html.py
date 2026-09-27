@@ -639,7 +639,7 @@ HTML = """<!DOCTYPE html>
     <!-- Deposit Notice -->
     <div class="deposit-notice reveal">
       <p>
-        <strong>About rental deposits:</strong> Deposits may be required depending on the item, category, owner requirements, and risk level. Deposits are a <strong>security mechanism</strong> — they are held separately and returned after a successful rental. They are not platform revenue.
+        <strong>About rental deposits:</strong> Deposits may be required depending on the item, category, owner requirements, and risk level. Deposits are a <strong>security mechanism</strong> — they are held separately and returned after a successful rental.
       </p>
     </div>
   </div>
@@ -791,59 +791,6 @@ HTML = """<!DOCTYPE html>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px"><path d="m5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     10. BUSINESS MODEL
-     ============================================================ -->
-<section id="business-model" class="section" aria-label="Business model">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="eyebrow">How SkipIt earns</span>
-      <h2>A marketplace designed to scale.</h2>
-      <p>SkipIt generates revenue primarily through a commission on successful rental transactions. The model is straightforward and transparent.</p>
-    </div>
-
-    <div class="biz-grid">
-      <!-- Revenue -->
-      <div class="biz-card biz-card--revenue reveal">
-        <div class="biz-card-label">Platform Revenue</div>
-        <div class="commission-highlight">
-          <span class="commission-percent">12</span>
-          <span class="commission-suffix">%</span>
-        </div>
-        <h3>Commission per transaction</h3>
-        <p>SkipIt earns a 12% commission on every successful rental transaction completed through the platform. This is the primary revenue mechanism.</p>
-        <div class="revenue-items">
-          <div class="rev-item"><div class="rev-item-dot"></div>Charged on rental value only</div>
-          <div class="rev-item"><div class="rev-item-dot"></div>Optional protection plan fees</div>
-          <div class="rev-item"><div class="rev-item-dot"></div>No hidden platform charges</div>
-        </div>
-      </div>
-      <!-- Deposit -->
-      <div class="biz-card biz-card--deposit reveal reveal-delay-2">
-        <div class="biz-card-label">Security Mechanism</div>
-        <h3>Rental deposits — not platform revenue</h3>
-        <p style="margin-bottom:16px">Rental deposits may be required for certain items, categories, or risk levels. It is important to understand the distinction:</p>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="padding:16px;background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border)">
-            <div style="font-family:var(--font-sans);font-size:.875rem;font-weight:700;color:var(--text-primary);margin-bottom:4px">Deposits are held security</div>
-            <div style="font-size:.875rem;color:var(--text-secondary);line-height:1.5">They are returned after a successful rental is completed. They are not earned by SkipIt.</div>
-          </div>
-          <div style="padding:16px;background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border)">
-            <div style="font-family:var(--font-sans);font-size:.875rem;font-weight:700;color:var(--text-primary);margin-bottom:4px">Commission is platform revenue</div>
-            <div style="font-size:.875rem;color:var(--text-secondary);line-height:1.5">Only the 12% commission on the rental value is retained by SkipIt as earnings.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top:32px;padding:24px 32px;background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--radius-xl);text-align:center" class="reveal">
-      <p style="font-size:.9375rem;color:var(--text-secondary);line-height:1.6">
-        <strong>Note on logistics:</strong> SkipIt does not provide any logistics or delivery service. Pickup and return arrangements are made directly between the renter and owner according to the rental agreement.
-      </p>
     </div>
   </div>
 </section>
